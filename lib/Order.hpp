@@ -1,8 +1,9 @@
+#ifndef ORDER_H_
+#define ORDER_H_
+
 #include <iostream>
 #include <string>
 #include <exception>
-
-using namespace std;
 
 class Order
 {
@@ -12,8 +13,7 @@ class Order
     char type;
 
 public:
-    Order(string);
-    ~Order();
+    Order(std::string);
 
     int getQuantity();
     int getCustomerNumber();
@@ -22,3 +22,5 @@ public:
 
     void str();
 };
+
+#endif

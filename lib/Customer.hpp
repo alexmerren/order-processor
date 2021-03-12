@@ -1,9 +1,10 @@
+#ifndef CUSTOMER_H_
+#define CUSTOMER_H_
+
 #include <iostream>
 #include <string>
 
 #include "Order.hpp"
-
-using namespace std;
 
 class Customer
 {
@@ -11,11 +12,10 @@ class Customer
     int amountOrdered;
     int date;
     static int invoiceNumber;
-    string customerName;
+    std::string customerName;
 
 public:
-    Customer(string);
-    ~Customer();
+    Customer(std::string);
 
     int getCustomerNumber();
     int getAmountOrdered();
@@ -23,6 +23,8 @@ public:
     void setDate(int);
 
     void shipOrder();
-    void add(Order *);
+    friend void operator+=(Customer&, Order*);
     void str();
 };
+
+#endif

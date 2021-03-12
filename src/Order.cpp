@@ -1,29 +1,20 @@
 #include "Order.hpp"
 
+using namespace std;
+
 // Constructor
 Order::Order(string inputString)
 {
-    try
-    {
-        // If the input string is not formatted correctly, reject it.
-        if (inputString.length() != 17)
-            throw exception();
-    }
-    catch (exception)
+    // If the input string is not formatted correctly, reject it.
+    if (inputString.length() != 17)
     {
         printf("There was an error with creating an order.\n");
         exit(EXIT_FAILURE);
     }
-
     this->customerNumber = atoi((inputString.substr(10, 4)).c_str());
     this->shipmentDate = atoi((inputString.substr(1, 8)).c_str());
     this->shipmentQuantity = atoi((inputString.substr(14, 3)).c_str());
     this->type = inputString[9];
-}
-
-// Destructor
-Order::~Order()
-{
 }
 
 // Get methods

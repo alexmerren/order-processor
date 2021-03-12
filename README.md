@@ -25,7 +25,7 @@ This will then create an executable called `Ordering`.
 In order to run the application, you can run the following command:
 
 ```bash
-$ ./Ordering [inputFile]
+$ ./ordering [inputFile]
 ```
 
 As an example of the format of the input file, I have included `testInputFile.txt`
@@ -37,5 +37,5 @@ The program will output all of the required information to the terminal.
 If needing to output this into a file, do the following:
 
 ```bash
-$ ./Ordering testInputFile.txt > output.log
+$ ./ordering testInputFile.txt > output.log
 ```

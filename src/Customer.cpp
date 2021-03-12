@@ -1,6 +1,8 @@
 #include "Customer.hpp"
 
-// Default Constructor
+using namespace std;
+
+// Parameterised Constructor
 Customer::Customer(string inputString)
 {
     // Get a substring of the input string where the customer number is.
@@ -10,11 +12,6 @@ Customer::Customer(string inputString)
     this->customerName = inputString.substr(5, string::npos);
     this->amountOrdered = 0;
     this->date = 0;
-}
-
-// Destructor
-Customer::~Customer()
-{
 }
 
 // Set the starting number for invoices, to be shared with all objects.
@@ -45,9 +42,9 @@ void Customer::shipOrder()
     this->amountOrdered = 0;
 }
 
-void Customer::add(Order *order)
+void operator+=(Customer &customer, Order *order)
 {
-    this->amountOrdered += order->getQuantity();
+    customer.amountOrdered += order->getQuantity();
 }
 
 void Customer::str()
