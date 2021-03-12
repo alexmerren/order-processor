@@ -18,7 +18,7 @@ $ cd folder-name
 $ ./compileOP
 ```
 
-This will then create an executable called `Ordering`.
+This will then create an executable called `ordering`.
 
 ## Functionality
 
