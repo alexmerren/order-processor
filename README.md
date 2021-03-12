@@ -11,24 +11,24 @@ the ECM2433 coursework 2 assignment.
 
 ## Compilation
 
-In order to compile the application, you can run the 'compileOP' file:
+In order to compile the application, you can run the `compileOP` file:
 
-'''bash
+```bash
 $ cd folder-name
 $ ./compileOP
-'''
+```
 
-This will then create an executable called 'Ordering'.
+This will then create an executable called `Ordering`.
 
 ## Functionality
 
 In order to run the application, you can run the following command:
 
-'''bash
+```bash
 $ ./Ordering [inputFile]
-'''
+```
 
-As an example of the format of the input file, I have included 'testInputFile.txt'
+As an example of the format of the input file, I have included `testInputFile.txt`
 
 ## Output
 
@@ -36,6 +36,6 @@ The program will output all of the required information to the terminal.
 
 If needing to output this into a file, do the following:
 
-'''bash
+```bash
 $ ./Ordering testInputFile.txt > output.log
-'''
+```
