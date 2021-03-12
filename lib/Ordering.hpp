@@ -1,5 +1,5 @@
-#ifndef ORDERING_H_
-#define ORDERING_H_
+#ifndef ORDERING_H
+#define ORDERING_H
 
 #include <iostream>
 #include <string>
@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Customer.hpp"
+#include "Order.hpp"
 
 void checkParams(int);
 bool processOrder(Order*, std::vector<Customer *> &);

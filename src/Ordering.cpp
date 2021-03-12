@@ -6,8 +6,8 @@ void checkParams(int amountOfArgs)
 {
     if (amountOfArgs != 2)
     {
-        printf("%s\n", "There are not enough parameters.");
-        printf("%s\n", "./Ordering [inputFile]");
+        printf("%s\n", "There are not enough parameters, please use the following structure:");
+        printf("%s\n", "./ordering [inputFile]");
         exit(EXIT_FAILURE);
     }
 }
@@ -101,17 +101,17 @@ bool processOrder(Order *newOrder, vector<Customer *> &allCustomers)
                 // Condition for an express order.
                 printf("OP: customer %04d: EXPRESS order: quantity %d.\n",
                         newOrder->getCustomerNumber(), newOrder->getQuantity());
+                *customer += newOrder;
                 printf("OP: customer %04d: shipped quantity %d\n",
                         customer->getCustomerNumber(), customer->getAmountOrdered());
-                *customer += newOrder;
                 customer->shipOrder();
             }
             else 
             {
                 // Condition for a normal order.
+                *customer += newOrder;
                 printf("OP: customer %04d: normal order: quantity %d.\n",
                         newOrder->getCustomerNumber(), newOrder->getQuantity());
-                *customer += newOrder;
             }
             return true;
         }
