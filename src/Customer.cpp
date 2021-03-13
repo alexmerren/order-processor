@@ -2,7 +2,6 @@
 
 using namespace std;
 
-// Parameterised Constructor
 Customer::Customer(string inputString)
 {
     // Get a substring of the input string where the customer number is.
@@ -17,7 +16,6 @@ Customer::Customer(string inputString)
 // Set the starting number for invoices, to be shared with all objects.
 int Customer::invoiceNumber{1000};
 
-// Get methods
 int Customer::getCustomerNumber()
 {
     return this->customerNumber;
@@ -28,27 +26,23 @@ int Customer::getAmountOrdered()
     return this->amountOrdered;
 }
 
-// Set methods
 void Customer::setDate(int date)
 {
     this->date = date;
 }
 
-// Auxiliary Methods
 void Customer::shipOrder()
 {
-    printf("SC: customer %04d, invoice %d, date %d, quantity %d\n",
-           customerNumber, invoiceNumber++, date, amountOrdered);
+    cout << "SC: customer " << setw(4) << setfill('0') << customerNumber
+         << ", invoice " << invoiceNumber++
+         << ", date " << date
+         << ", quantity" << amountOrdered << endl;
+    cout << "OP: customer " << setw(4) << setfill('0') << customerNumber
+         << ": shipped quantity " << amountOrdered << endl;
     this->amountOrdered = 0;
 }
 
 void operator+=(Customer &customer, Order *order)
 {
     customer.amountOrdered += order->getQuantity();
-}
-
-void Customer::str()
-{
-    printf("Customer number: %04d, Customer name: %s, Current order: %d.\n",
-           this->customerNumber, (this->customerName).c_str(), this->amountOrdered);
 }

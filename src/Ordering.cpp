@@ -2,86 +2,37 @@
 
 using namespace std;
 
-void checkParams(int amountOfArgs)
-{
-    if (amountOfArgs != 2)
-    {
-        printf("%s\n", "There are not enough parameters, please use the following structure:");
-        printf("%s\n", "./ordering [inputFile]");
-        exit(EXIT_FAILURE);
-    }
-}
-
+/**
+ * Usage: ./orderings [inputFile]
+ * */
 int main(int argc, char const *argv[])
 {
-    // Check that an input file has been specified.
     checkParams(argc);
 
     bool endOfDay = false;
     vector<Customer *> allCustomers;
 
-    string const FILENAME= argv[1];
-    ifstream inputFile(FILENAME);
+    string filename = argv[1];
+    ifstream inputFile(filename);
+    // If there is an error creating the input file stream, exit the program.
     if (!inputFile)
     {
-        printf("%s\n", "Failed to open the input file, exiting...");
+        cerr << "Failed to open the input file." << endl;
         return EXIT_FAILURE;
     }
 
-    // Use a while loop to get the text from the input file line by line,
-    // and store the line in the 'line' variable.
-    char firstChar;
+    // Get each line from the input file and store the contents in the line variable.
     string line;
     while (getline(inputFile, line))
     {
-        firstChar = line[0];
-        switch (firstChar)
-        {
-            case 'C':
-            {
-                // The case for a new customer record.
-                Customer *newCustomer = new Customer(line);
-                allCustomers.push_back(newCustomer);
-                printf("OP: customer %04d added\n", newCustomer->getCustomerNumber());
-                break;
-            }
-            case 'S':
-            {
-                // The case for a new order record.
-                Order *newOrder = new Order(line);
-                if (!processOrder(newOrder, allCustomers))
-                {
-                    // If the order cannot be processed, for any reason, 
-                    // then exit the program.
-                    printf("%s\n", "There was an invalid order., exiting...");
-                    return EXIT_FAILURE;
-                }
-                delete newOrder;
-                break;
-            }
-            case 'E':
-            {
-                // The case for an end-of-day record.
-                string date = line.substr(1);
-                printf("OP: end of day %s\n", date.c_str());
-                endOfDay = true;
-                break;
-            }
-            default:
-            {
-                // The case where it's none of the options.
-                printf("%s.\n", "Invalid option, exiting...");
-                return EXIT_FAILURE;
-            }
-        }
-
+        // Process each line, true will only be returned with an end-of-day record.
+        endOfDay = processLine(line, allCustomers);
         if (endOfDay)
-        {
             shipAllOrders(allCustomers);
-            endOfDay = false;
-        }
+        endOfDay = false;
     }
 
+    // Free up the memory for exiting the program.
     for (Customer *customer : allCustomers)
         delete customer;
 
@@ -89,6 +40,63 @@ int main(int argc, char const *argv[])
     return EXIT_SUCCESS;
 }
 
+/**
+ * Check the amount of parameters is right for the functionality of the program.
+ * */
+void checkParams(int amountOfArgs)
+{
+    if (amountOfArgs != 2)
+    {
+        cerr << "Not enough parameters to run program." << endl;
+        cout << "Please use the following structure: ./ordering [inputFile]" << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+/**
+ * Process a line with the different types of records in the input file.
+ * */
+bool processLine(string line, vector<Customer *> &allCustomers)
+{
+    char firstChar = line[0];
+    // If the first letter is 'E', that indicates an end-of-day record.
+    if (firstChar == 'E')
+    {
+        string date = line.substr(1);
+        cout << "OP: End of day " << date << endl;
+        return true;
+    }
+    // If the first character is 'C', that is a new customer record.
+    else if (firstChar == 'C')
+    {
+        Customer *newCustomer = new Customer(line);
+        allCustomers.push_back(newCustomer);
+        cout << "OP: customer " << setw(4) << setfill('0') << newCustomer->getCustomerNumber() << " added" << endl;
+    } 
+    // If the first letter is 'S', that is a new sales record.
+    else if (firstChar == 'S')
+    {
+        Order *newOrder = new Order(line);
+        // If the order cannot be processed, for any reason, then exit the program.
+        if (!processOrder(newOrder, allCustomers))
+        {
+            cerr << "There was an invalid order." << endl;
+            exit(EXIT_FAILURE);
+        }
+        // Free up the memory as the order no longer needs to be accessed.
+        delete newOrder;
+    }
+    else
+    {
+        cerr << "Invalid formatting of line." << endl;
+        exit(EXIT_FAILURE);
+    }
+    return false;
+}
+
+/**
+ * Process an order and check whether it is an express or normal order.
+ * */
 bool processOrder(Order *newOrder, vector<Customer *> &allCustomers)
 {
     for (Customer *customer : allCustomers)
@@ -96,38 +104,37 @@ bool processOrder(Order *newOrder, vector<Customer *> &allCustomers)
         if (customer->getCustomerNumber() == newOrder->getCustomerNumber())
         {
             customer->setDate(newOrder->getDate());
+            *customer += newOrder;
+            string type;
             if (newOrder->getType() == 'X')
             {
                 // Condition for an express order.
-                printf("OP: customer %04d: EXPRESS order: quantity %d.\n",
-                        newOrder->getCustomerNumber(), newOrder->getQuantity());
-                *customer += newOrder;
-                printf("OP: customer %04d: shipped quantity %d\n",
-                        customer->getCustomerNumber(), customer->getAmountOrdered());
+                type = "EXPRESS";
                 customer->shipOrder();
             }
             else 
             {
                 // Condition for a normal order.
-                *customer += newOrder;
-                printf("OP: customer %04d: normal order: quantity %d.\n",
-                        newOrder->getCustomerNumber(), newOrder->getQuantity());
+                type = "normal";
             }
+            cout << "OP: customers " << setw(4) << setfill('0') << newOrder->getCustomerNumber()
+                 << type << " order: " 
+                 << "quantity " << newOrder->getQuantity() << endl;
             return true;
         }
     }
     return false;
 }
 
+/**
+ * Ship all the orders that meet a criteria at the end of a given day.
+ * */
 void shipAllOrders(vector<Customer *> &allCustomers)
 {
+    // Process all customers who have an amount ordered above 0.
     for (Customer *customer : allCustomers)
     {
         if (customer->getAmountOrdered() > 0)
-        {
-            printf("OP: customer %04d: shipped quantity %d\n",
-                   customer->getCustomerNumber(), customer->getAmountOrdered());
             customer->shipOrder();
-        }
     }
 }

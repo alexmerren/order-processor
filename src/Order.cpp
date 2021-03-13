@@ -2,13 +2,12 @@
 
 using namespace std;
 
-// Constructor
 Order::Order(string inputString)
 {
     // If the input string is not formatted correctly, reject it.
     if (inputString.length() != 17)
     {
-        printf("There was an error with creating an order.\n");
+        cerr << "There was an error when creating an order." << endl;
         exit(EXIT_FAILURE);
     }
     this->customerNumber = atoi((inputString.substr(10, 4)).c_str());
@@ -17,7 +16,6 @@ Order::Order(string inputString)
     this->type = inputString[9];
 }
 
-// Get methods
 int Order::getQuantity()
 {
     return this->shipmentQuantity;
@@ -36,11 +34,4 @@ char Order::getType()
 int Order::getDate()
 {
     return this->shipmentDate;
-}
-
-// Auxilliary Methods
-void Order::str()
-{
-    printf("Customer number: %04d, Amount ordered: %d\n",
-           this->customerNumber, this->shipmentQuantity);
 }

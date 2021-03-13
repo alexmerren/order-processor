@@ -1,7 +1,8 @@
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
+#ifndef CUSTOMER_H_
+#define CUSTOMER_H_
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 #include "Order.hpp"
@@ -20,7 +21,6 @@ public:
     void setDate(int);
     void shipOrder();
     friend void operator+=(Customer&, Order*);
-    void str();
 };
 
-#endif
+#endif // CUSTOMER_H_

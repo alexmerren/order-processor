@@ -1,9 +1,8 @@
-#ifndef ORDER_H
-#define ORDER_H
+#ifndef ORDER_H_
+#define ORDER_H_
 
 #include <iostream>
 #include <string>
-#include <exception>
 
 class Order
 {
@@ -17,7 +16,6 @@ public:
     int getCustomerNumber();
     char getType();
     int getDate();
-    void str();
 };
 
-#endif
+#endif // ORDER_H_
