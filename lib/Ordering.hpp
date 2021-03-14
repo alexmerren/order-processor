@@ -11,7 +11,7 @@
 
 void checkParams(int);
 bool processLine(std::string, std::vector<Customer *> &);
-bool processOrder(Order*, std::vector<Customer *> &);
-void shipAllOrders(std::vector<Customer *> &);
+bool processOrder(Order*, const std::vector<Customer *> &);
+void shipAllOrders(const std::vector<Customer *> &);
 
 #endif // ORDERING_H_

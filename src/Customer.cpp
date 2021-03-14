@@ -13,7 +13,7 @@ Customer::Customer(string inputString)
     this->date = 0;
 }
 
-// Set the starting number for invoices, to be shared with all objects.
+// Number for the next invoice.
 int Customer::invoiceNumber{1000};
 
 int Customer::getCustomerNumber()
@@ -36,7 +36,7 @@ void Customer::shipOrder()
     cout << "SC: customer " << setw(4) << setfill('0') << customerNumber
          << ", invoice " << invoiceNumber++
          << ", date " << date
-         << ", quantity" << amountOrdered << endl;
+         << ", quantity " << amountOrdered << endl;
     cout << "OP: customer " << setw(4) << setfill('0') << customerNumber
          << ": shipped quantity " << amountOrdered << endl;
     this->amountOrdered = 0;

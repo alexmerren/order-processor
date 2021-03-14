@@ -43,7 +43,7 @@ int main(int argc, char const *argv[])
 /**
  * Check the amount of parameters is right for the functionality of the program.
  * */
-void checkParams(int amountOfArgs)
+void checkParams(const int amountOfArgs)
 {
     if (amountOfArgs != 2)
     {
@@ -59,21 +59,18 @@ void checkParams(int amountOfArgs)
 bool processLine(string line, vector<Customer *> &allCustomers)
 {
     char firstChar = line[0];
-    // If the first letter is 'E', that indicates an end-of-day record.
     if (firstChar == 'E')
     {
         string date = line.substr(1);
         cout << "OP: End of day " << date << endl;
         return true;
     }
-    // If the first character is 'C', that is a new customer record.
     else if (firstChar == 'C')
     {
         Customer *newCustomer = new Customer(line);
         allCustomers.push_back(newCustomer);
         cout << "OP: customer " << setw(4) << setfill('0') << newCustomer->getCustomerNumber() << " added" << endl;
     } 
-    // If the first letter is 'S', that is a new sales record.
     else if (firstChar == 'S')
     {
         Order *newOrder = new Order(line);
@@ -83,7 +80,7 @@ bool processLine(string line, vector<Customer *> &allCustomers)
             cerr << "There was an invalid order." << endl;
             exit(EXIT_FAILURE);
         }
-        // Free up the memory as the order no longer needs to be accessed.
+        // Free up  memory as the order no longer needs to be accessed.
         delete newOrder;
     }
     else
@@ -97,13 +94,14 @@ bool processLine(string line, vector<Customer *> &allCustomers)
 /**
  * Process an order and check whether it is an express or normal order.
  * */
-bool processOrder(Order *newOrder, vector<Customer *> &allCustomers)
+bool processOrder(Order *newOrder, const vector<Customer *> &allCustomers)
 {
     for (Customer *customer : allCustomers)
     {
         if (customer->getCustomerNumber() == newOrder->getCustomerNumber())
         {
             customer->setDate(newOrder->getDate());
+            // Add the quantity ordered in the order to the relevant customer.
             *customer += newOrder;
             string type;
             if (newOrder->getType() == 'X')
@@ -117,8 +115,8 @@ bool processOrder(Order *newOrder, vector<Customer *> &allCustomers)
                 // Condition for a normal order.
                 type = "normal";
             }
-            cout << "OP: customers " << setw(4) << setfill('0') << newOrder->getCustomerNumber()
-                 << type << " order: " 
+            cout << "OP: customer " << setw(4) << setfill('0') << newOrder->getCustomerNumber()
+                 << " " << type << " order: " 
                  << "quantity " << newOrder->getQuantity() << endl;
             return true;
         }
@@ -129,7 +127,7 @@ bool processOrder(Order *newOrder, vector<Customer *> &allCustomers)
 /**
  * Ship all the orders that meet a criteria at the end of a given day.
  * */
-void shipAllOrders(vector<Customer *> &allCustomers)
+void shipAllOrders(const vector<Customer *> &allCustomers)
 {
     // Process all customers who have an amount ordered above 0.
     for (Customer *customer : allCustomers)
