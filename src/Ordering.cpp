@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     string line;
     while (getline(inputFile, line))
     {
-        // Process each line, true will only be returned with an end-of-day record.
+        // Process each line
         endOfDay = processLine(line, allCustomers);
         if (endOfDay)
             shipAllOrders(allCustomers);

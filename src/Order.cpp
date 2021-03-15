@@ -7,7 +7,7 @@ Order::Order(string inputString)
     // If the input string is not formatted correctly, reject it.
     if (inputString.length() != 17)
     {
-        cerr << "There was an error when creating an order." << endl;
+        cerr << "There is an error in the formatting of the input file." << endl;
         exit(EXIT_FAILURE);
     }
     this->customerNumber = atoi((inputString.substr(10, 4)).c_str());

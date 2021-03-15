@@ -1,7 +1,11 @@
 #!/bin/sh
-g++ -std=c++11 -c -I./lib/ ./src/Order.cpp -o ./out/Order.o && \
-g++ -std=c++11 -c -I./lib/ ./src/Customer.cpp -o ./out/Customer.o && \
-g++ -std=c++11 -c -I./lib/ ./src/Ordering.cpp -o ./out/Ordering.o && \
+function compile() {
+    g++ -std=c++11 -c -I./lib/ ./src/$1.cpp -o ./out/$1.o 
+}
+
+compile Order && \
+compile Customer && \
+compile Ordering && \
 g++ ./out/Order.o ./out/Customer.o ./out/Ordering.o -o ordering && \
 echo "Compiled Successfully!" || echo "There was an error!"
 
