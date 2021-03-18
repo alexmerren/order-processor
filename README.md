@@ -37,5 +37,5 @@ The program will output all of the required information to the terminal.
 If needing to output this into a file, do the following:
 
 ```bash
-$ ./ordering testInputFile.txt > output.log
+$ ./ordering testInputFile.txt > output.log 2> error.log
 ```
