@@ -1,7 +1,7 @@
 # Order Processing Application
 
 This is an order processing application created for
-the ECM2433 coursework 2 assignment.
+the ECM2433 coursework 2 assignment. This project achieved __85/100__.
 
 ## Contents
  
